@@ -1,0 +1,8 @@
+routes = ["Makongeni", "Kangemi", "Ngong", "Kiserian", "Namanga", "Taita_taveta", "Mombasa","Kawangware","Utawala", "Kahawa_sukari",]
+routes.append("Ruiru")
+routes.remove("Kawangware")
+count_N=sum(1 for route in routes if 'N' in route or 'n' in route)
+long_routes=[route for route in routes if len(route)>10]
+print("Updated routes list:", routes)
+print("Total routes with 'N' or 'n':", count_N)
+print("Routes with more than 10 characters:", long_routes)
