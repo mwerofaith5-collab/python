@@ -1,0 +1,11 @@
+import numpy as np
+transactions = np.array([
+    [115, 231, 653, 234, 234, 654,]'
+    [231, 132, 241, 150, 79, 123]'
+    [30, 27, 80, 174, 49, 97]'
+    [261, 53, 76, 54, 97, 130]
+])
+total=np.sum(transactions, axis=1)
+highest_branch= np.argmax(total)
+avarage_volume=np.mean(transactions)
+reshape=transactions.reshape(3,8)
