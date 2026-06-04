@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bella Fantacia Arte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --plum: #7c4d8a;
+      --plum-light: #b27bc9;
+      --plum-pale: #f0e8f5;
+      --gold: #c9a96e;
+      --cream: #faf7f4;
+      --dark: #1e1a1f;
+      --text: #3d3540;
+      --muted: #8a7d8f;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--cream); color: var(--text); font-family: 'Jost', sans-serif; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 8%;
+      background: rgba(250,247,244,0.93);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(124,77,138,0.12);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
+      font-weight: 600; color: var(--plum); text-decoration: none;
+    }
+    .nav-link {
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--plum); text-decoration: none;
+      padding: 9px 22px; border: 1.5px solid var(--plum-light);
+      border-radius: 30px; transition: all 0.25s ease;
+    }
+    .nav-link:hover { background: var(--plum); color: white; border-color: var(--plum); }
+
+    header {
+      margin-top: 65px; min-height: 520px; position: relative;
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; text-align: center; padding: 80px 20px; overflow: hidden;
+    }
+    header .bg-fallback {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #2d1f35 0%, #5c3470 40%, #8b5e9e 70%, #c49ab5 100%);
+    }
+    header .bg {
+      position: absolute; inset: 0;
+      background-image: url('/static/header_background.jpg.jpeg');
+      background-size: cover; background-position: center; filter: brightness(0.55);
+    }
+    header .overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(30,26,31,0.2), rgba(30,26,31,0.55)); }
+    header .content { position: relative; z-index: 2; }
+    .header-eyebrow { font-size: 0.78rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 400; color: white; line-height: 1.1; margin-bottom: 18px; }
+    header h1 em { font-style: italic; color: #e8d5f0; }
+    header .tagline { font-size: 1rem; color: rgba(255,255,255,0.75); font-weight: 300; letter-spacing: 0.06em; }
+
+    section { padding: 70px 10%; }
+    .section-label { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 500; }
+
+    .about { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 400; color: var(--dark); margin-bottom: 20px; }
+    .about-text p { line-height: 1.9; color: var(--muted); font-size: 0.97rem; font-weight: 300; }
+    .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .about-card { background: white; border: 1px solid rgba(178,123,201,0.18); border-radius: 14px; padding: 22px 18px; transition: transform 0.2s, box-shadow 0.2s; }
+    .about-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(124,77,138,0.1); }
+    .about-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .about-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; color: var(--plum); margin-bottom: 5px; }
+    .about-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    .gallery-section { background: white; }
+    .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; }
+    .gallery-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 400; color: var(--dark); }
+    .upload-btn { display: inline-block; padding: 10px 22px; background: var(--plum-pale); color: var(--plum); font-size: 0.83rem; font-weight: 500; border-radius: 8px; cursor: pointer; border: 1px solid rgba(124,77,138,0.2); transition: background 0.2s; }
+    .upload-btn:hover { background: #e0cff0; }
+    input[type="file"] { display: none; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .gallery-placeholder { grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: var(--muted); font-size: 0.9rem; border: 2px dashed rgba(178,123,201,0.25); border-radius: 14px; }
+    .gallery-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 10px; transition: transform 0.3s; }
+    .gallery-grid img:hover { transform: scale(1.02); }
+
+    .cta-section { text-align: center; background: linear-gradient(135deg, #2d1f35, #5c3470); color: white; }
+    .cta-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; font-weight: 400; margin-bottom: 14px; }
+    .cta-section p { font-weight: 300; color: rgba(255,255,255,0.7); margin-bottom: 32px; }
+    .cta-btn { display: inline-block; padding: 14px 36px; background: var(--gold); color: #1e1a1f; text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 4px; transition: opacity 0.2s, transform 0.2s; }
+    .cta-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+
+    footer { background: var(--dark); color: rgba(255,255,255,0.7); text-align: center; padding: 40px 20px; font-size: 0.88rem; font-weight: 300; }
+    .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: white; margin-bottom: 16px; font-weight: 400; }
+    .social-links { margin: 12px 0 20px; }
+    .social-links a { color: var(--gold); text-decoration: none; margin: 0 10px; font-weight: 500; font-size: 0.85rem; }
+    .social-links a:hover { opacity: 0.7; }
+    footer p { margin: 4px 0; line-height: 1.8; }
+
+    @media (max-width: 768px) {
+      .about { grid-template-columns: 1fr; gap: 36px; }
+      nav { padding: 14px 5%; }
+      section { padding: 50px 6%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">Bella Fantacia Arte</a>
+    <a href="/contact" class="nav-link">Contact Us</a>
+  </nav>
+
+  <header>
+    <div class="bg-fallback"></div>
+    <div class="bg"></div>
+    <div class="overlay"></div>
+    <div class="content">
+      <p class="header-eyebrow">Biophilic Interior Design</p>
+      <h1>Bella Fantacia <em>Arte</em></h1>
+      <p class="tagline">Creating Beautiful Experiences &amp; Lasting Impressions</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="about">
+      <div class="about-text">
+        <p class="section-label">About Us</p>
+        <h2>Design Rooted in Nature</h2>
+        <p>Our company works with interior design related companies such as paint, tiles, tables and wooden companies. Bella Fantacia works with nature-driven design (Biophilic design). We specialise in walls, designer furniture, and creating colour schemes for your interior. We serve corporates, factories, hospitals and builder projects.</p>
+      </div>
+      <div class="about-cards">
+        <div class="about-card"><div class="icon">🌿</div><h4>Biophilic Design</h4><p>Nature-driven spaces that inspire calm and creativity.</p></div>
+        <div class="about-card"><div class="icon">🎨</div><h4>Colour Schemes</h4><p>Bespoke palettes crafted for your space and brand.</p></div>
+        <div class="about-card"><div class="icon">🪵</div><h4>Designer Furniture</h4><p>Curated pieces with natural materials and textures.</p></div>
+        <div class="about-card"><div class="icon">🏢</div><h4>Commercial Projects</h4><p>Corporates, hospitals, factories and builders.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <div>
+        <p class="section-label">Portfolio</p>
+        <h2>Our Gallery</h2>
+      </div>
+      <label for="imageUpload" class="upload-btn">+ Upload Images</label>
+    </div>
+    <input type="file" id="imageUpload" accept="image/*" multiple>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-placeholder" id="placeholder">No images yet — click <strong>Upload Images</strong> to add photos.</div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <p class="section-label" style="color: var(--gold);">Get in Touch</p>
+    <h2>Let's Design Something Beautiful</h2>
+    <p>Ready to transform your space? We'd love to hear about your project.</p>
+    <a href="/contact" class="cta-btn">Contact Us</a>
+  </section>
+
+  <footer>
+    <p class="footer-brand">Bella Fantacia Arte</p>
+    <div class="social-links">
+      <a href="https://www.instagram.com/ruchikadesignclub" target="_blank">Instagram</a>
+    </div>
+    <p>Email: bellafantacia.arte@gmail.com</p>
+    <p>Phone: +254 798 528 526 &nbsp;|&nbsp; +254 103 345 556</p>
+    <p style="margin-top:14px; font-size:0.8rem; opacity:0.5;">© 2026 Bella Fantacia Arte. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const imageUpload = document.getElementById('imageUpload');
+    const galleryGrid = document.getElementById('galleryGrid');
+    const placeholder = document.getElementById('placeholder');
+    imageUpload.addEventListener('change', function(event) {
+      const files = event.target.files;
+      if (files.length > 0) placeholder.style.display = 'none';
+      for (let file of files) {
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = file.name;
+            galleryGrid.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
